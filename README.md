@@ -1,1 +1,1 @@
-## An Educational OS written in Rust-lan.
+## An Educational OS written in Rust-lang.
