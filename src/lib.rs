@@ -1,3 +1,4 @@
+#![feature(abi_x86_interrupt)]
 #![no_std]
 #![cfg_attr(test, no_main)]
 #![feature(custom_test_frameworks)]
@@ -9,6 +10,7 @@ use x86_64::instructions::port::Port;
 
 pub mod serial;
 pub mod vga_buffer;
+pub mod interrupts;
 
 pub fn test_runner(tests: &[&dyn Fn()]) {
     serial_println!("Running {} tests", tests.len());
