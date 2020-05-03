@@ -1,8 +1,8 @@
 use crate::println;
 use crate::{serial_print, serial_println};
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
-
 use lazy_static::lazy_static;
+use crate::gdt;
 
 lazy_static! {
     static ref IDT: InterruptDescriptorTable = {
@@ -12,6 +12,7 @@ lazy_static! {
             idt.double_fault.set_handler_fn(double_fault_handler)
                 .set_stack_index(gdt::DOUBLE_FAULT_IST_INDEX); // new
         }
+
         idt
     };
 }
