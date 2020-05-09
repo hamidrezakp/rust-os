@@ -23,13 +23,16 @@ fn panic(info: &PanicInfo) -> ! {
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    println!("Hello World {}", "!");
+    println!("Hello World{}", "!");
 
     blog_os::init();
 
-    // invoke a breakpoint exception
-    x86_64::instructions::interrupts::int3();
+    // trigger a page fault
+    unsafe {
+        *(0xdeadbeef as *mut u64) = 42;
+    };
 
+    // as before
     #[cfg(test)]
     test_main();
 
