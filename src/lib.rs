@@ -8,10 +8,10 @@
 use core::panic::PanicInfo;
 use x86_64::instructions::port::Port;
 
+pub mod gdt;
 pub mod interrupts;
 pub mod serial;
 pub mod vga_buffer;
-pub mod gdt;
 
 pub fn test_runner(tests: &[&dyn Fn()]) {
     serial_println!("Running {} tests", tests.len());
