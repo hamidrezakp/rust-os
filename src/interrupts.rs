@@ -12,7 +12,7 @@ lazy_static! {
         }
         idt
     };
-}}
+}
 
 pub fn init_idt() {
     IDT.load();
