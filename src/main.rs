@@ -27,13 +27,6 @@ pub extern "C" fn _start() -> ! {
 
     blog_os::init();
 
-    fn stack_overflow() {
-        stack_overflow(); // for each recursion, the return address is pushed
-    }
-
-    // uncomment line below to trigger a stack overflow
-    // stack_overflow();
-
     // as before
     #[cfg(test)]
     test_main();
