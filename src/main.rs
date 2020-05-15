@@ -33,7 +33,6 @@ pub extern "C" fn _start() -> ! {
 
     println!("It did not crash!");
     loop {
-        //use blog_os::print;
         print!("-");
     }
 }
