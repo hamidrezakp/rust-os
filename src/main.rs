@@ -4,7 +4,7 @@
 #![test_runner(blog_os::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use blog_os::println;
+use blog_os::{print, println};
 use core::panic::PanicInfo;
 
 /// This function is called on panic.
@@ -32,5 +32,8 @@ pub extern "C" fn _start() -> ! {
     test_main();
 
     println!("It did not crash!");
-    loop {}
+    loop {
+        //use blog_os::print;
+        print!("-");
+    }
 }
