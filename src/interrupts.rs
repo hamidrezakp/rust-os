@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
-use crate::{gdt, println, serial_print, serial_println};
+use crate::{gdt, print, println, serial_print, serial_println};
 use pic8259_simple::ChainedPics;
 use spin;
 
@@ -34,6 +34,9 @@ lazy_static! {
             idt.double_fault.set_handler_fn(double_fault_handler)
                 .set_stack_index(gdt::DOUBLE_FAULT_IST_INDEX); // new
         }
+        idt[InterruptIndex::Timer.as_usize()]
+            .set_handler_fn(timer_interrupt_handler);
+
         idt
     };
 }
@@ -51,6 +54,12 @@ extern "x86-interrupt" fn double_fault_handler(
     _error_code: u64,
 ) -> ! {
     panic!("EXCEPTION: DOUBLE FAULT\n{:#?}", stack_frame);
+}
+
+extern "x86-interrupt" fn timer_interrupt_handler(
+    _stack_frame: &mut InterruptStackFrame)
+{
+    print!(".");
 }
 
 #[cfg(test)]
