@@ -1,8 +1,11 @@
 use lazy_static::lazy_static;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
-use crate::{gdt, print, println, serial_print, serial_println};
+use crate::{gdt, print, println};
 use pic8259_simple::ChainedPics;
 use spin;
+use pc_keyboard::{layouts, DecodedKey, HandleControl, Keyboard, ScancodeSet1};
+use spin::Mutex;
+use x86_64::instructions::port::Port;
 
 pub const PIC_1_OFFSET: u8 = 32;
 pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
@@ -73,11 +76,25 @@ extern "x86-interrupt" fn timer_interrupt_handler(
 extern "x86-interrupt" fn keyboard_interrupt_handler(
     _stack_frame: &mut InterruptStackFrame)
 {
-    use x86_64::instructions::port::Port;
+    lazy_static! {
+        static ref KEYBOARD: Mutex<Keyboard<layouts::Us104Key, ScancodeSet1>> =
+            Mutex::new(
+                Keyboard::new(layouts::Us104Key, ScancodeSet1, HandleControl::Ignore)
+            );
+    }
 
+    let mut keyboard = KEYBOARD.lock();
     let mut port = Port::new(0x60);
+
     let scancode: u8 = unsafe { port.read() };
-    print!("{}", scancode);
+    if let Ok(Some(key_event)) = keyboard.add_byte(scancode) {
+        if let Some(key) = keyboard.process_keyevent(key_event) {
+            match key {
+                DecodedKey::Unicode(character) => print!("{}", character),
+                DecodedKey::RawKey(key) => print!("{:?}", key),
+            }
+        }
+    }
 
     unsafe {
         PICS.lock()

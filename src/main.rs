@@ -4,7 +4,7 @@
 #![test_runner(blog_os::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use blog_os::{print, println};
+use blog_os::{println};
 use core::panic::PanicInfo;
 
 /// This function is called on panic.
