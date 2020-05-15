@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
-use crate::{gdt, print, println};
+use crate::{gdt, print, println, serial_print, serial_println};
 use pic8259_simple::ChainedPics;
 use spin;
 use pc_keyboard::{layouts, DecodedKey, HandleControl, Keyboard, ScancodeSet1};
