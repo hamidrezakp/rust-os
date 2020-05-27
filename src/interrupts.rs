@@ -1,4 +1,4 @@
-use crate::{gdt, print, println, serial_print, serial_println};
+use crate::{gdt, print, println};
 use lazy_static::lazy_static;
 use pc_keyboard::{layouts, DecodedKey, HandleControl, Keyboard, ScancodeSet1};
 use pic8259_simple::ChainedPics;
