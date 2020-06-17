@@ -1,4 +1,4 @@
-use crate::{gdt, print, println, serial_print, serial_println};
+use crate::{gdt, print, println};
 use lazy_static::lazy_static;
 use pc_keyboard::{layouts, DecodedKey, HandleControl, Keyboard, ScancodeSet1};
 use pic8259_simple::ChainedPics;
@@ -100,6 +100,7 @@ extern "x86-interrupt" fn keyboard_interrupt_handler(_stack_frame: &mut Interrup
 #[cfg(test)]
 #[test_case]
 fn test_breakpoint_exception() {
+    use crate::{serial_print, serial_println};
     serial_print!("test_breakpoint_exception...");
     // invoke a breakpoint exception
     x86_64::instructions::interrupts::int3();
