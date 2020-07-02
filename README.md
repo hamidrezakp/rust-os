@@ -4,7 +4,7 @@
 ### Requirements
 you need:
 - qemu
-- rust (nightly)
+- rust (nightly), rust-src, llvm-tools-preview
 - cargo xbuild, bootlader
 
 #### Qemu
@@ -26,6 +26,11 @@ After installation is done, add this line to your shell config to load rust tool
 for Bash:
 ```bash
 echo 'source $HOME/.cargo/env' >> ~/.bashrc
+```
+now install rust-src component:
+```bash
+rustup component add rust-src
+rustup component add llvm-tools-preview
 ```
 
 #### Cargo xbuild
